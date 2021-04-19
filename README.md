@@ -2,7 +2,12 @@
 ## Zsh script - rxjs, @reduxjs/toolkit, redux-observable, ts
 
 You can just add this script into .zshrc
+You can create a new file (i.e. .zshrc_react_snippet) and add into .zshrc one:
+`source ~/.zshrc_react_snippet`
+
 ```
+#!bin/zsh
+
 reactNewStore () {
     path=$PWD
     storeName=$1
@@ -10,17 +15,17 @@ reactNewStore () {
     echo "${path} perform new store ${1}"
     /bin/mkdir ${storeName}
     /bin/cat <<EOT >> ${storeName}/${dir}.epic.ts
-import { PayloadAction } from "@reduxjs/toolkit";
-import { mergeMap } from 'rxjs/operators';
-import { Action } from "redux";
-import { Observable } from 'rxjs';
-import { Epic, ofType } from "redux-observable";
+import { PayloadAction } from '@reduxjs/toolkit';
+import { catchError, map, mergeMap } from 'rxjs/operators';
+import { Action } from 'redux';
+import { Observable, of } from 'rxjs';
+import { Epic, ofType } from 'redux-observable';
 import { ${dir}Actions } from './${dir}.slice';
 
-const actionRequestEpic: Epic =
+const ${dir}RequestEpic: Epic =
   (action$: Observable<PayloadAction>): Observable<Action> => {
     return action$.pipe(
-      ofType(${dir}Actions.actionRequest.type),
+      ofType(${dir}Actions.${dir}Request.type),
       mergeMap((action) => Services.api(action.payload)),
       map((response: Models) => ({ type: ${dir}Actions.${dir}Success.type, payload: response })),
       catchError((error: Error) => of({ type: ${dir}Actions.${dir}Failure.type, payload: error }))
@@ -28,7 +33,7 @@ const actionRequestEpic: Epic =
   }
 
 const epics = [
-  actionRequestEpic,
+  ${dir}RequestEpic,
 ];
 
 export default epics;
