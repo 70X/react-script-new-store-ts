@@ -1,7 +1,8 @@
 # React To Create a new Store
 ## Zsh script - rxjs, @reduxjs/toolkit, redux-observable, ts
 
-You can just add this script into .zshrc
+You can just add this script into .zshrc.
+
 You can create a new file (i.e. .zshrc_react_snippet) and add into .zshrc one:
 `source ~/.zshrc_react_snippet`
 
