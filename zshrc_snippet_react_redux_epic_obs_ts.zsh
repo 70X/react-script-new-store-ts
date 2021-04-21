@@ -6,7 +6,7 @@ reactNewStore () {
     dir="$(/usr/bin/basename $storeName)" 
     echo "${path} perform new store ${1}"
     /bin/mkdir ${storeName}
-    /bin/cat <<EOT >> ${storeName}/${dir}.epic.ts
+    /bin/cat <<EOT >> ${storeName}/${dir}.epics.ts
 import { PayloadAction } from '@reduxjs/toolkit';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { Action } from 'redux';
@@ -49,18 +49,18 @@ EOT
 import { AxiosError } from 'axios';
 
 export interface ${dir}State {
-  data: Models,
+  data: any,
   error?: AxiosError,
   loading?: boolean,
 }
 EOT
 
   /bin/cat <<EOT >> ${storeName}/${dir}.slice.ts
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit';
 import { ${dir}State } from './${dir}.types';
 
 const initialState: ${dir}State = {
-  data: Models,
+  data: null,
 }
 export const ${dir}Slice = createSlice({
   name: '${dir}',
